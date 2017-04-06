@@ -31,6 +31,13 @@ channel.on("stat", msg => {
 
   var status = document.getElementsByClassName('status')[0];
   status.innerHTML = statusText;
+
+  
+  document.getElementsByClassName('api-available')[0].style.display = 'none';
+});
+
+channel.on("api-unavailable", msg => {  
+  document.getElementsByClassName('api-available')[0].style.display = 'block';
 });
 
 export default socket

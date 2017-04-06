@@ -6,7 +6,7 @@ defmodule SlackinEx.Slack do
   """
 
   def setup do
-    :fuse.install(:slack_sync_api, {{:standard, 5, 15_000}, {:reset, 30_000}})
+    :fuse.install(:slack_sync_api, {{:standard, 2, 15_000}, {:reset, 10_000}})
 
     :ets.new(__MODULE__, [:set, :public, :named_table,
                           {:read_concurrency, true}])
@@ -166,6 +166,7 @@ defmodule SlackinEx.Slack do
             :ets.insert(__MODULE__, {:stat, online, total})
             :ok
           {:retry, retry} ->
+            :fuse.melt(:slack_sync_api)
             {:retry, retry}
           error ->
             :fuse.melt(:slack_sync_api)
@@ -178,14 +179,19 @@ defmodule SlackinEx.Slack do
     case :fuse.ask(:slack_sync_api, :async_dirty) do
       :ok ->
         fetch_stat()
-      :blown -> :ok
+      :blown ->
+        SlackinEx.Web.Endpoint.broadcast("team:all", "api-unavailable", %{})
+        :blown
     end
   end
 
   defp stat_fetcher_loop do
     case maybe_fetch_stat() do
       {:retry, retry} ->
-        :timer.sleep(retry * 1000 + 1000)
+        SlackinEx.Web.Endpoint.broadcast("team:all", "api-unavailable", %{})
+        :timer.sleep(max(retry * 1000 + 1000, SlackinEx.Config.slack_update_interval()))
+      :blown ->
+        :timer.sleep(1000)
       _ ->
         :timer.sleep(SlackinEx.Config.slack_update_interval())
     end

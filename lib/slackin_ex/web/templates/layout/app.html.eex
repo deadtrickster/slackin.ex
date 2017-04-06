@@ -16,6 +16,7 @@
     <div class="container">
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger api-available" style="<%= if SlackinEx.Slack.api_available?, do: "display:none;" %>" role="alert">Slack API is not available at the moment.</p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 
       <main role="main">
