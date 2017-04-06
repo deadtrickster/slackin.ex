@@ -16,7 +16,7 @@ use Mix.Config
 config :slackin_ex, SlackinEx.Web.Endpoint,
   on_init: {SlackinEx.Web.Endpoint, :load_from_system_env, []},
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
-  url: [host: "example.com", port: 80],
+  url: [scheme: "https", host: System.get_env("DOMAIN_NAME"), port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json",
   secret_key_base: System.get_env("SECRET_KEY_BASE")
 
