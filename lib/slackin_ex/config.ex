@@ -22,7 +22,7 @@ defmodule SlackinEx.Config do
   end
 
   def slack_update_interval() do
-    10000
+    30000
   end
 
   def logo_url() do

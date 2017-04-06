@@ -26,12 +26,16 @@ defmodule SlackinEx.Slack do
         end
     end
 
-    :ok = fetch_stat()
+    case fetch_stat() do
+      {:retry, _} -> Logger.warn("We are rate-limit, good start!")
+      :ok -> Logger.info("Successfully fetched users stat.")
+      _ -> Logger.error("Error while fetching users stat.")
+    end
   end
 
   def api_available? do
     # TODO: publish change as event
-    :fuse.ask(:slack_sync_api, :async_dirty) == :ok
+    (:fuse.ask(:slack_sync_api, :async_dirty) == :ok) and (users_count() != false)
   end
 
   def invite(params) do
@@ -40,8 +44,12 @@ defmodule SlackinEx.Slack do
   end
 
   def users_count() do
-    [{:stat, online, total}] = :ets.lookup(__MODULE__, :stat)
-    {online, total}
+    case :ets.lookup(__MODULE__, :stat) do
+      [{:stat, online, total}] ->
+        {online, total}
+      [] ->
+        false
+    end
   end
 
   defp invite!(email) do
@@ -72,9 +80,13 @@ defmodule SlackinEx.Slack do
     case response do
       {:ok, 200, _h, r} ->
         process_response_body(r)
-      {:ok, 429, h, _} ->
+      {:ok, 429, h, r} ->
         {retry, ""} = Integer.parse(:proplists.get_value(<<"Retry-After">>, h))
         Logger.error("Slack rate limit hit. Retry after #{retry}")
+        case :hackney.body(r) do
+          {:ok, body} -> Logger.error("Slack rate-limit message: #{body}")
+          {:error, _} -> Logger.error("Unable to read body of rate-limit message")
+        end
         {:retry, retry}
       {:ok, 500, _, _} ->
         :fuse.melt(:slack_sync_api)
@@ -173,7 +185,7 @@ defmodule SlackinEx.Slack do
   defp stat_fetcher_loop do
     case maybe_fetch_stat() do
       {:retry, retry} ->
-        :timer.sleep(retry * 1000)
+        :timer.sleep(retry * 1000 + 1000)
       _ ->
         :timer.sleep(SlackinEx.Config.slack_update_interval())
     end

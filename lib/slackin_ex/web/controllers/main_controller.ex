@@ -8,8 +8,12 @@ defmodule SlackinEx.Web.MainController do
       put_flash(conn, :error, "Slack API is not available at the moment.")
     end
     
-    {active, total} = SlackinEx.Slack.users_count
-    render conn, "index.html", active: active, total: total 
+    case SlackinEx.Slack.users_count do
+      {active, total} ->
+        render conn, "index.html", active: active, total: total
+      false ->
+        render conn, "index.html"
+    end
   end
 
   def badge(conn, _params) do
