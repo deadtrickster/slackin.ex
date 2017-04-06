@@ -1,0 +1,23 @@
+<div class="splash">
+  <div class="logos">
+    <div class="logo org" style="background-image: url(<%= SlackinEx.Config.logo_url() %>)"></div>
+    <div class="logo slack"></div>
+  </div>
+  <p>Join <b><%= SlackinEx.Config.slack_team_name() %></b> on Slack.</p>
+  <%= if SlackinEx.Slack.api_available? do %>
+    <%= if @active == 0 do %>
+      <p class="status"><b class="total"><%= @total %></b> user<%= if @total > 1, do: "s" %> registered.</p>
+    <% else %>
+      <p class="status"><b class="active"><%= @active %></b> user<%= if @active > 1, do: "s" %> online now of <b class="total"><%= @total %></b> registered.</p>
+    <% end %>
+  <% end %>
+  <form id="invite" action="/invite" method="post">
+    <input type="email" name="email" placeholder="you@yourdomain.com" autofocus=true class="form-item">
+    <%= if SlackinEx.Config.coc_url() do %>
+      <div class="coc"><label><input type="checkbox" name="coc" value="1">I agree to the <a href="<%= SlackinEx.Config.coc_url() %>" target="_blank">Code of Conduct</a>.</label></div>
+    <% end %>
+    <input type="submit" value="Get my Invite" class="button"/>
+  </form>
+  <p class="signin">or <a href="https://<%= SlackinEx.Config.slack_subdomain() %>.slack.com" target="_top">sign in</a>.</p>
+  <p class="help">If you don't receive an invite shortly please send an email to <a href="mailto:<%= SlackinEx.Config.contact_email() %>" target="_blank"><%= SlackinEx.Config.contact_name() %></a>.</p>
+</div>

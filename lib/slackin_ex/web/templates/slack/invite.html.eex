@@ -1,0 +1,5 @@
+<div class="splash">
+  <div class="invite-message <%= @message_class %>">
+  <%= @message %>
+  </div>
+</div>
