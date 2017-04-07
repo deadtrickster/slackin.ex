@@ -15,8 +15,8 @@
   + live api/connection status
   - use fuse for network stat and separate probes for
     invite/users.list rate limiting
-- configuration
-  - config.exs/env vars support
++ configuration
+  + config.exs/env vars support
 + deployment  
   + heroku
 - README
