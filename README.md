@@ -4,6 +4,14 @@
 
 [Live demo](https://slackinex.herokuapp.com/)
 
+# Features
+
+- Can work without Javascript;
+- Uses Phoenix channels if available for live stat updates/rpc;
+- Badge;
+- Network status alerts;
+- Respects Slack rate-limiting.
+
 # Configuration
 
 Slackin.ex can be configured via standard phoenix configuration files
