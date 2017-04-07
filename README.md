@@ -1,4 +1,4 @@
-# SlackinEx ![Slackin.ex badge](https://slackinex.herokuapp.com/badge.svg)
+# SlackinEx [![Slackin.ex badge](https://slackinex.herokuapp.com/badge.svg)](https://slackinex.herokuapp.com/)
 
 [Slackin](https://github.com/rauchg/slackin/) clone in Elixir. At the moment we reuse parts of HTML & CSS.
 
