@@ -1,3 +1,4 @@
+================= Version 1 =================
 + Invitation
   + pure html invitation  
   + invite operation via channel
@@ -19,8 +20,10 @@
   + config.exs/env vars support
 + deployment  
   + heroku
-- README
-================ PUBLISH ON GITHUB ================
++ README
+- Tests
+
+================= Version 2 =================
 - code of conduct support
 - invitiation widget [iframe]
 - prerender everything [and badges] on startup
