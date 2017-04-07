@@ -151,15 +151,15 @@ defmodule SlackinEx.Slack do
   end
 
   defp invite_url do
-    "https://#{SlackinEx.Config.slack_subdomain()}.slack.com/api/users.admin.invite?token=#{SlackinEx.Config.slack_apitocken()}"
+    "https://#{SlackinEx.Config.slack_subdomain()}.slack.com/api/users.admin.invite?token=#{SlackinEx.Config.slack_apitoken()}"
   end
 
   defp users_list_url do
-    "https://#{SlackinEx.Config.slack_subdomain()}.slack.com/api/users.list?token=#{SlackinEx.Config.slack_apitocken()}&presence=1"
+    "https://#{SlackinEx.Config.slack_subdomain()}.slack.com/api/users.list?token=#{SlackinEx.Config.slack_apitoken()}&presence=1"
   end
 
   defp team_info_url do
-    "https://#{SlackinEx.Config.slack_subdomain()}.slack.com/api/team.info?token=#{SlackinEx.Config.slack_apitocken()}"
+    "https://#{SlackinEx.Config.slack_subdomain()}.slack.com/api/team.info?token=#{SlackinEx.Config.slack_apitoken()}"
   end
 
   def start_link do

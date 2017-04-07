@@ -9,7 +9,7 @@ defmodule SlackinEx.Config do
     fetch_option(:slack_subdomain)
   end
 
-  def slack_apitocken() do
+  def slack_apitoken() do
     fetch_option(:slack_apitoken)
   end
 
