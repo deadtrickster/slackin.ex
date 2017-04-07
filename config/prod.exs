@@ -59,8 +59,12 @@ config :logger, level: :info
 # start per endpoint:
 #
 #     config :slackin_ex, SlackinEx.Web.Endpoint, server: true
-#
 
-# Finally import the config/prod.secret.exs
-# which should be versioned separately.
+# config :slackin_ex,
+#   slack_subdomain: "slackinex",
+#   logo_url: "https://i.imgur.com/bq7UPJ6.png",
+#   contact_email: "slackinex@gmail.com",
+#   contact_name: "slackin.ex Team"
+
+# If you want to store api token in config, uncomment
 # import_config "prod.secret.exs"
