@@ -1,6 +1,6 @@
-- Invitation
++ Invitation
   + pure html invitation  
-  - invite operation via channel
+  + invite operation via channel
 - background job for getting users with presence from slack
   + simple sync call
   - json streaming
