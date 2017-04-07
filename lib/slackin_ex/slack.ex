@@ -3,6 +3,17 @@ defmodule SlackinEx.Slack do
   require Logger
 
   @moduledoc """
+
+  Common Fuse for network/Slack 500
+
+  if invite returns rate-limit:
+    notify user and show global unavailable alert
+    show "please retry after @retry seconds"
+
+  if stat returns rate-limit:
+    just hide stat from page
+    [optionally do this only when stat is too old - like 5 mins]
+
   """
 
   def setup do

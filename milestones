@@ -1,18 +1,32 @@
-+ pure html invitation
-- badge [online/total] with content negotiation
-  - background job for getting users with presence from slack [json streaming]
-  - when online/total changed regenerate badge of supported types and cache
-  - serve cached badges [do not regenerate on the fly]
-- channels [websockets]
+- Invitation
+  + pure html invitation  
   - invite operation via channel
-  - live online/total counter
+- background job for getting users with presence from slack
+  + simple sync call
+  - json streaming
+- badge [online/total]
+  + generate svg badge on request
+  - when online/total changed regenerate badge
+  - serve cached badge [do not regenerate on the fly]
+- team stat
+  + pure html stat
+  + live counters
+- Network status/rate limit
+  + live api/connection status
+  - use fuse for network stat and separate probes for
+    invite/users.list rate limiting
+- configuration
+  - config.exs/env vars support
++ deployment  
+  + heroku
+- README
 ================ PUBLISH ON GITHUB ================
+- code of conduct support
 - invitiation widget [iframe]
 - prerender everything [and badges] on startup
   - make css a view, make every color(incl background) here customizable too
 - investigate client side badge rendering for widgets
 - deployment
   - docker
-  - heroku
   - aws marketplace?
   - azure?

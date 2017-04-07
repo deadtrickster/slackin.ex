@@ -89,7 +89,7 @@ select {
 }
 .button,
 .form-item {
-  font-size: 1.2rem;
+  font-size: 1.2rem !important;
   margin-top: 1rem;
   vertical-align: middle;
   display: block;
@@ -200,7 +200,7 @@ footer a:hover {
 
 .error {
   @extend .invite-message;
-  color: red;
+  color: #1B1B1B;
 }
 
 .alert {
