@@ -26,7 +26,7 @@ defmodule SlackinEx.Config do
   end
 
   def logo_url() do
-    "http://i.imgur.com/bq7UPJ6.png"
+    "https://i.imgur.com/bq7UPJ6.png"
   end
 
   def coc_url() do
