@@ -1,5 +1,5 @@
 defmodule SlackinEx.Slack do
-
+  alias SlackinEx.Config
   require Logger
 
   @moduledoc """
@@ -7,12 +7,12 @@ defmodule SlackinEx.Slack do
   Common Fuse for network/Slack 500
 
   if invite returns rate-limit:
-    notify user and show global unavailable alert
-    show "please retry after @retry seconds"
+  notify user and show global unavailable alert
+  show "please retry after @retry seconds"
 
   if stat returns rate-limit:
-    just hide stat from page
-    [optionally do this only when stat is too old - like 5 mins]
+  just hide stat from page
+  [optionally do this only when stat is too old - like 5 mins]
 
   """
 
@@ -30,7 +30,24 @@ defmodule SlackinEx.Slack do
         exit({:error, {:network, error}})
       response ->
         case process_response(response) do
-          {:ok, _} -> :ok
+          {:ok, %{"team" => team_info}} ->
+            %{"name" => team_name,
+              "icon" => team_icon} = team_info
+
+            unless Config.slack_team_name() do
+              Config.set_option(:slack_team_name, team_name)
+            end
+
+            unless Config.logo_url() do
+              case team_icon do
+                %{"image_default" => _} ->
+                  Logger.error("Team logo not set [slack].")
+                  exit({:error, {:application, "Team logo not set"}})
+                %{"image_132" => team_logo} ->
+                  Config.set_option(:logo_url, team_logo)
+              end
+            end
+            :ok
           error ->
             Logger.error("Error during preflight check [slack].")
             exit(error)

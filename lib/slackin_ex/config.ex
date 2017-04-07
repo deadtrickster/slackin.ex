@@ -6,27 +6,27 @@ defmodule SlackinEx.Config do
   ## Slack stuff
 
   def slack_subdomain() do
-    "slackinex"
+    fetch_option(:slack_subdomain)
   end
 
   def slack_apitocken() do
-    System.get_env("SLACK_APITOKEN")
+    fetch_option(:slack_apitoken)
   end
 
   def slack_channels() do
-    ""
+    get_option(:slack_channels)
   end
 
   def slack_team_name() do
-    "SlackinEx"
+    get_option(:slack_team_name)
   end
 
   def slack_update_interval() do
-    30000
+    get_option(:slack_update_interval, 30_000)
   end
 
   def logo_url() do
-    "https://i.imgur.com/bq7UPJ6.png"
+    get_option(:logo_url)
   end
 
   def coc_url() do
@@ -34,39 +34,56 @@ defmodule SlackinEx.Config do
   end
 
   def contact_email() do
-    "slackinex@gmail.com"
+    fetch_option(:contact_email)
   end
 
-  def contact_name() do
-    "slackin.ex Team"
+  def contact_name() do    
+    get_option(:contact_name, contact_email())
   end
 
   def badge_accent_color() do
-    "#4e2a8e"
+    get_option(:badge_accent_color, "#4e2a8e")
   end
 
   def badge_title_background_color() do
-    "#555"
+    get_option(:badge_title_background_color, "#555")
   end
 
   def badge_text_color() do
-    "#fff"
+    get_option(:badge_text_color, "#fff")
   end
 
   def badge_text_shadow_color() do
-    "#010101"
+    get_option(:badge_text_shadow_color, "#010101")
   end
 
   def badge_title() do
-    "slack"
+    get_option(:badge_title, "slack")
   end
 
   def badge_pad() do
-    8
+    get_option(:badge_pad, 8)
   end
 
   def badge_sep() do
-    4
+    get_option(:badge_sep, 4)
   end
-  
+
+
+  defp get_option(name, default \\ nil) do
+    string_name = String.upcase(Atom.to_string(name))
+    System.get_env(string_name) ||
+      Application.get_env(:slackin_ex, name, default)
+  end
+
+  defp fetch_option(name) do
+    string_name = String.upcase(Atom.to_string(name))
+    System.get_env(string_name) ||
+      Application.fetch_env!(:slackin_ex, name)
+  end
+
+  def set_option(name, value) do
+    Application.put_env(:slackin_ex, name, value)
+  end
+
 end

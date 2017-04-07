@@ -47,3 +47,10 @@ config :logger, :console, format: "$time [$level] $message\n"
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
+
+config :slackin_ex,
+  slack_subdomain: "slackinex",
+  logo_url: "https://i.imgur.com/bq7UPJ6.png",
+  contact_email: "slackinex@gmail.com",
+  contact_name: "slackin.ex Team"
+
