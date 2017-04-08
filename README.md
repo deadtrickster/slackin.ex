@@ -4,21 +4,22 @@
 
 [Live demo](https://slackinex.herokuapp.com/)
 
-# Features
+## Features
 
 - Can work without Javascript;
 - Uses Phoenix channels if available for live stat updates/rpc;
 - Badge;
 - Network status alerts;
+- Memory-friendly users statistics;
 - Respects Slack rate-limiting.
 
-# Technical Highlights
+## Technical Highlights
 
 - Uses [fuse](https://github.com/jlouis/fuse) circuit breaker for detecting network/slack api recurring failures;
 - Caching is done using [run-time code generation](https://github.com/deadtrickster/smerl);
 - Live team members stat (retrieved with users.list) implemented using [jsx](https://github.com/talentdeficit/jsx) evented streams.
 
-# Configuration
+## Configuration
 
 Slackin.ex can be configured via standard phoenix configuration files
 or environment variables.
@@ -72,16 +73,16 @@ Only three absolutely required options:
 - `:slack_apitoken`
 - `:contact_email`
 
-# Deployment
+## Deployment
 
-## Release
+### Release
 
 Put you configuration in prod.exs and api token in
 prod.secret.exs file and uncomment the last line in prod.exs
 
 **Note** Do not forget to check url config of endpoint!
 
-## Heroku
+### Heroku
 
 Put you configuration in prod.exs and api token in environment (config var):
 
@@ -92,5 +93,5 @@ heroku config:set SECRET_KEY_BASE=<key base>
 
 And deploy with Heroku git as usual.
 
-# License
+## License
 MIT
