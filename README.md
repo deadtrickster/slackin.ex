@@ -12,6 +12,12 @@
 - Network status alerts;
 - Respects Slack rate-limiting.
 
+# Technical Highlights
+
+- Uses [fuse](https://github.com/jlouis/fuse) circuit breaker for detecting network/slack api recurring failures;
+- Caching is done using [run-time code generation](https://github.com/deadtrickster/smerl);
+- Live team members stat (retrieved with users.list) implemented using [jsx](https://github.com/talentdeficit/jsx) evented streams.
+
 # Configuration
 
 Slackin.ex can be configured via standard phoenix configuration files
