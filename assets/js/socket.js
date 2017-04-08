@@ -30,7 +30,7 @@ channel.on("stat", msg => {
     }
 
     status.innerHTML = statusText;
-
+    status.style.display = 'block';
 
     document.getElementsByClassName('api-available')[0].style.display = 'none';
   } else {
