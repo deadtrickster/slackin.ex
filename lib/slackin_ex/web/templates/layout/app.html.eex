@@ -19,7 +19,7 @@
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
-      <footer>powered by <a href="http://github.com/deadtrickster/slackin_ex" target="_blank">slackin.ex</a></footer>
+      <footer>powered by <a href="http://github.com/deadtrickster/slackin.ex" target="_blank">slackin.ex</a></footer>
     </div> <!-- /container -->
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>

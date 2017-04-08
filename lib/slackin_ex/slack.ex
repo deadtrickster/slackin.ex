@@ -98,10 +98,10 @@ defmodule SlackinEx.Slack do
     :hackney.get(team_info_url())
   end
 
-  def process_response(response) do
+  defp on_success_repsonse(response, callback) do
     case response do
-      {:ok, 200, _h, r} ->
-        process_response_body(r)
+      {:ok, 200, h, r} ->
+        callback.(h, r)
       {:ok, 429, h, r} ->
         {retry, ""} = Integer.parse(:proplists.get_value(<<"Retry-After">>, h))
         Logger.error("Slack rate limit hit. Retry after #{retry}")
@@ -113,6 +113,30 @@ defmodule SlackinEx.Slack do
       {:ok, 500, _, _} ->
         :fuse.melt(:slack_sync_api)
         {:error, {:slack, :server_error}}
+    end
+  end
+
+  defp process_response(response) do
+    on_success_repsonse(response, fn(_h, r) ->
+      process_response_body(r)
+    end)
+  end
+
+  defp process_response_stream(response, callback, state) do
+    on_success_repsonse(response, fn(_h, r) ->
+      process_response_stream_loop(r, callback, state)
+    end)
+  end
+
+  def process_response_stream_loop(r, callback, state) do
+    case :hackney.stream_body(r) do
+      {:ok, data} ->
+        state = callback.(data, state)
+        process_response_stream_loop(r, callback, state)
+      :done ->
+        callback.(:done, state)
+      {:error, reason} ->
+        {:error, {:network, reason}}
     end
   end
 
@@ -170,15 +194,22 @@ defmodule SlackinEx.Slack do
   end
 
   defp fetch_stat do
+    ## what about cache_ts?
     case users_list_request() do
       {:error, error} ->
         :fuse.melt(:slack_sync_api)
         {:error, {:network, error}}
       response ->
-        case process_response(response) do
-          {:ok, %{"members" => members}} ->
-            stat = count_members(members)
-            maybe_change_stat(stat)
+        decoder = :jsx.decoder(:jsx_users_list_callback, [], [:stream])
+        callback = fn
+          (:done, {:incomplete, decoder}) ->
+            {:ok, :jsx_users_list_callback.counts(decoder.(:end_json))}
+          (data, {:incomplete, decoder}) ->
+            decoder.(data)
+        end
+        case process_response_stream(response, callback, {:incomplete, decoder}) do
+          {:ok, counts} ->
+            maybe_change_stat(counts)
             :ok
           {:retry, retry} ->
             :fuse.melt(:slack_sync_api)
@@ -212,26 +243,6 @@ defmodule SlackinEx.Slack do
     end
 
     stat_fetcher_loop()
-  end
-
-  defp count_members(members) do
-    humans = Enum.filter(members, fn(member) ->
-      case member do
-        %{"id" => "USLACKBOT"} -> false
-        %{"is_bot" => true} -> false
-        %{"deleted" => true} -> false
-        _ -> true
-      end
-    end)
-
-    online = Enum.reduce(humans, 0, fn(member, acc) ->
-      case member do
-        %{"presence" => "away"} -> acc
-        _ -> acc + 1
-      end
-    end)
-
-    {online, Enum.count(humans)}
   end
 
   defp maybe_change_stat(stat) do
