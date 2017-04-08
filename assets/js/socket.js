@@ -13,44 +13,33 @@ socket.connect();
 let channel = socket.channel("team:all", {});
 
 channel.on("stat", msg => {
-  var online = msg.online;
-  var total = msg.total;
-
-  var statusText;
-  
-  if (online == 0) {
-    statusText = "<b class=\"total\">" + total + "</b> user" + (total>1?"s":"") + " registered.";
-  } else {
-    statusText = "<b class=\"active\">" + online + "</b> user" + (online>1?"s":"") + " online now" +
-      " of <b class=\"total\">" + total + "</b> registered.";
-  }
 
   var status = document.getElementsByClassName('status')[0];
-  status.innerHTML = statusText;
 
-  
-  document.getElementsByClassName('api-available')[0].style.display = 'none';
+  if(!msg.error) {
+    var online = msg.online;
+    var total = msg.total;
+
+    var statusText;
+
+    if (online == 0) {
+      statusText = "<b class=\"total\">" + total + "</b> user" + (total>1?"s":"") + " registered.";
+    } else {
+      statusText = "<b class=\"active\">" + online + "</b> user" + (online>1?"s":"") + " online now" +
+        " of <b class=\"total\">" + total + "</b> registered.";
+    }
+
+    status.innerHTML = statusText;
+
+
+    document.getElementsByClassName('api-available')[0].style.display = 'none';
+  } else {
+    status.style.display = 'none';
+  }
 });
 
-channel.on("api-unavailable", msg => {  
+channel.on("api-unavailable", msg => {
   document.getElementsByClassName('api-available')[0].style.display = 'block';
 });
 
 export default channel;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
