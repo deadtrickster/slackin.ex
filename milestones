@@ -4,7 +4,7 @@
   + invite operation via channel
 - background job for getting users with presence from slack
   + simple sync call
-  - json streaming
+  + json streaming
 - badge [online/total]
   + generate svg badge on request
   + when online/total changed regenerate badge
