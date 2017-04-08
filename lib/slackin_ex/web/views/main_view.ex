@@ -1,10 +1,33 @@
 defmodule SlackinEx.Web.MainView do
 
   import SlackinEx.Config
-  
+
   use SlackinEx.Web, :view
 
+  def render("main.html", _) do
+    SlackinEx.Cache.Index.get()
+  end
   def render("badge.svg", _) do
+    SlackinEx.Cache.Badge.get()
+  end
+
+  def index do
+    params = case SlackinEx.Slack.users_count do
+               {active, total} -> [stat_available: true,
+                                  active: active,
+                                  total: total,
+                                  layout: {SlackinEx.Web.LayoutView, "app.html"},
+                                  conn: %Plug.Conn{private: %{phoenix_endpoint: SlackinEx.Web.Endpoint}}]
+               false -> [stat_available: false,
+                        layout: {SlackinEx.Web.LayoutView, "app.html"},
+                        conn: %Plug.Conn{private: %{phoenix_endpoint: SlackinEx.Web.Endpoint}}]
+             end
+
+    Phoenix.View.render(__MODULE__,
+      "index.html", params)
+  end
+
+  def badge do
     value = if SlackinEx.Slack.api_available? do
       {active, users} = SlackinEx.Slack.users_count
       if active == 0 do
@@ -19,28 +42,28 @@ defmodule SlackinEx.Web.MainView do
     title = badge_title()
     accent_color = badge_accent_color()
     title_background_color = badge_title_background_color()
-    
+
     pad = badge_pad()
     sep = badge_sep()
 
     lw = pad + width(title) + sep ## left side width
     rw = sep + width(value) + pad ## right side width
     tw = lw + rw
-    
-    """
-    <svg xmlns="http://www.w3.org/2000/svg" width="#{tw}" height="20">
-    <rect rx="3" width="#{tw}" height="20" fill="#{title_background_color}"></rect>
-    <rect rx="3" x="#{lw}" width="#{rw}" height="20" fill="#{accent_color}"></rect>
-    <path d="M#{lw} 0h#{sep}v20h-#{sep}z" fill="#{accent_color}"></path>
-    <g text-anchor="middle" font-family="Verdana" font-size="11">
-    #{text(title, Float.round(lw / 2), 14)}
-    #{text(value, lw + Float.round(rw / 2), 14)}
-    </g>
-    </svg>
+
+"""
+<svg xmlns="http://www.w3.org/2000/svg" width="#{tw}" height="20">
+<rect rx="3" width="#{tw}" height="20" fill="#{title_background_color}"></rect>
+<rect rx="3" x="#{lw}" width="#{rw}" height="20" fill="#{accent_color}"></rect>
+<path d="M#{lw} 0h#{sep}v20h-#{sep}z" fill="#{accent_color}"></path>
+<g text-anchor="middle" font-family="Verdana" font-size="11">
+#{text(title, Float.round(lw / 2), 14)}
+#{text(value, lw + Float.round(rw / 2), 14)}
+</g>
+</svg>
     """
   end
 
-  ## generate text with 1px shadow  
+  ## generate text with 1px shadow
   defp text(str, x, y) do
     text_color = badge_text_color()
     text_shadow_color = badge_text_shadow_color()

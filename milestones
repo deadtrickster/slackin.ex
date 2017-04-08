@@ -7,8 +7,8 @@
   - json streaming
 - badge [online/total]
   + generate svg badge on request
-  - when online/total changed regenerate badge
-  - serve cached badge [do not regenerate on the fly]
+  + when online/total changed regenerate badge
+  + serve cached badge [do not regenerate on the fly]
 - team stat
   + pure html stat
   + live counters

@@ -53,12 +53,6 @@ defmodule SlackinEx.Slack do
             exit(error)
         end
     end
-
-    case fetch_stat() do
-      {:retry, _} -> Logger.warn("We are rate-limit, good start!")
-      :ok -> Logger.info("Successfully fetched users stat.")
-      _ -> Logger.error("Error while fetching users stat.")
-    end
   end
 
   def api_available? do
@@ -73,8 +67,8 @@ defmodule SlackinEx.Slack do
 
   def users_count() do
     case :ets.lookup(__MODULE__, :stat) do
-      [{:stat, online, total}] ->
-        {online, total}
+      [{:stat, stat}] ->
+        stat
       [] ->
         false
     end
@@ -183,15 +177,8 @@ defmodule SlackinEx.Slack do
       response ->
         case process_response(response) do
           {:ok, %{"members" => members}} ->
-            {online, total} = count_members(members)
-            ## TODO: send only when value changed
-            case :ets.info(SlackinEx.PubSub) do
-              :undefined -> :ok
-              _ ->
-                SlackinEx.Web.Endpoint.broadcast("team:all", "stat", %{"online" => online,
-                                                                       "total" => total})
-            end
-            :ets.insert(__MODULE__, {:stat, online, total})
+            stat = count_members(members)
+            maybe_change_stat(stat)
             :ok
           {:retry, retry} ->
             :fuse.melt(:slack_sync_api)
@@ -245,5 +232,15 @@ defmodule SlackinEx.Slack do
     end)
 
     {online, Enum.count(humans)}
+  end
+
+  defp maybe_change_stat(stat) do
+    case users_count() do
+      ^stat ->
+        :ok
+      _ ->
+        :ets.insert(__MODULE__, {:stat, stat})
+        SlackinEx.Events.SlackHandler.handle_event(:users_count_changed, [])
+    end
   end
 end

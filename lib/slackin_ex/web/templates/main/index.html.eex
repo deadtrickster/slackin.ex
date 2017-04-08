@@ -5,7 +5,7 @@
   </div>
   <p>Join <b><%= SlackinEx.Config.slack_team_name() %></b> on Slack.</p>
   <p class="status">
-    <%= if SlackinEx.Slack.api_available? do %>
+    <%= if @stat_available do %>
       <%= if @active == 0 do %>
         <b class="total"><%= @total %></b> user<%= if @total > 1, do: "s" %> registered.
       <% else %>
