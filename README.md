@@ -75,10 +75,19 @@ Only three absolutely required options:
 
 ## Deployment
 
-### Release
+### Release via Distillery 
 
-Put you configuration in prod.exs and api token in
-prod.secret.exs file and uncomment the last line in prod.exs
+Can be configured using prod.exs and optional prod.secret.exs(gitignored).
+Environment variables still work too.
+
+```
+## Create release:
+MIX_ENV=prod mix release
+
+## Run:
+PORT=4000 _build/prod/rel/slackin_ex/bin/slackin_ex console
+
+```
 
 **Note** Do not forget to check url config of endpoint!
 
