@@ -1,1 +1,1 @@
-web: MIX_ENV=prod RELEASE=heroku mix phoenix.server
+web: MIX_ENV=prod RELEASE=heroku mix phx.server
