@@ -37,6 +37,7 @@ defmodule SlackinEx.Mixfile do
      {:jsx, "~> 2.8"},
      {:credo, "~> 0.7", only: [:dev, :test]},
      {:fuse, "~> 2.4"},
-     {:smerl, "~> 0.0.1"}]
+     {:smerl, "~> 0.0.1"},
+     {:distillery, "~> 1.3"}]
   end
 end
