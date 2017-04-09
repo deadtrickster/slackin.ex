@@ -3,4 +3,6 @@ use Mix.Config
 config :slackin_ex, SlackinEx.Web.Endpoint,
   server: true
 
-import_config "prod.secret.exs"
+if File.exists?("prod.secret.exs") do
+  import_config "prod.secret.exs"
+end
