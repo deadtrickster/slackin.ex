@@ -2,4 +2,5 @@
 
 mix local.hex --force
 mix local.rebar --force
-MIX_ENV=prod mix release
+rm -rf _build/prod
+MIX_ENV=prod mix release --no-tar
