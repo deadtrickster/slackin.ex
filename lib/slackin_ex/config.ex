@@ -37,7 +37,7 @@ defmodule SlackinEx.Config do
     fetch_option(:contact_email)
   end
 
-  def contact_name() do    
+  def contact_name() do
     get_option(:contact_name, contact_email())
   end
 
@@ -66,11 +66,20 @@ defmodule SlackinEx.Config do
   end
 
   def badge_sep() do
-    get_option(:badge_sep, 4)
+    SlackinEx.Config.BadgeSep.get()
   end
 
+  defmodule BadgeSep do
+    def get() do
+      SlackinEx.Config.cache(__MODULE__, SlackinEx.Config.get_option(:badge_sep, 4))
+    end
+  end
 
-  defp get_option(name, default \\ nil) do
+  def cache(_mod, value) do
+    value
+  end
+  
+  def get_option(name, default \\ nil) do
     string_name = String.upcase(Atom.to_string(name))
     System.get_env(string_name) ||
       Application.get_env(:slackin_ex, name, default)

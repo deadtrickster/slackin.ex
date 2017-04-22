@@ -1,0 +1,6 @@
+FROM elixir:latest
+MAINTAINER Ilya Khaprov <i.khaprov@gmail.com>
+
+ENV BUILD_HOME=/tmp/build_path
+
+RUN mkdir -p $BUILD_HOME
