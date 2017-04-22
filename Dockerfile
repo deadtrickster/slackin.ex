@@ -17,7 +17,7 @@ ENV PORT=$port
 
 ## libcrypto
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libssl-dev
+    && apt-get install -y --no-install-recommends libssl1.0.0
 
 ## locale stuff
 ENV LANGUAGE=en_US.UTF-8
