@@ -102,5 +102,20 @@ heroku config:set SECRET_KEY_BASE=<key base>
 
 And deploy with Heroku git as usual.
 
+### Docker
+
+Run the latest image:
+
+```
+docker run -e SLACK_SUBDOMAIN=<> -e SLACK_APITOKEN=<> -e \
+       CONTACT_EMAIL=<> -p 4000:4000 --rm slackin_ex foreground
+```
+
+Or build your own:
+
+```
+./bin/build-docker-release.sh TAG
+```
+
 ## License
 MIT
