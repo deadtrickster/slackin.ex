@@ -14,16 +14,13 @@ ENV REPLACE_OS_VARS=true
 ## Application env
 EXPOSE $port
 ENV PORT=$port
-
-## libcrypto
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends libssl1.0.0
-
-## locale stuff
 ENV LANGUAGE=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
-RUN apt-get install -y --no-install-recommends locales \
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libssl1.0.0 locales \
+    && rm -rf /var/lib/apt/lists/* \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen en_US.UTF-8 \
     && dpkg-reconfigure locales
