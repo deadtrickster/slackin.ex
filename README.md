@@ -107,8 +107,8 @@ And deploy with Heroku git as usual.
 Run the latest image:
 
 ```
-docker run -e SLACK_SUBDOMAIN=<> -e SLACK_APITOKEN=<> -e \
-       CONTACT_EMAIL=<> -p 4000:4000 --rm slackin_ex foreground
+docker run -e SLACK_SUBDOMAIN=<> -e SLACK_APITOKEN=<> -e CONTACT_EMAIL=<> \
+           -p 4000:4000 --rm deadtrickster/slackin_ex foreground
 ```
 
 Or build your own:
