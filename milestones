@@ -30,6 +30,6 @@
   - make css a view, make every color(incl background) here customizable too
 - investigate client side badge rendering for widgets
 - deployment
-  - docker
+  + docker
   - aws marketplace?
   - azure?
