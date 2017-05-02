@@ -30,7 +30,7 @@ defmodule SlackinEx.Config do
   end
 
   def coc_url() do
-    false
+    get_option(:coc_url)
   end
 
   def contact_email() do
