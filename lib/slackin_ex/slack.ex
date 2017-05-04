@@ -62,6 +62,7 @@ defmodule SlackinEx.Slack do
 
   def invite(params) do
     with {:ok, email} <- validate_email(params),
+          {:ok, _coc} <- validate_coc(params),
       do: invite!(email)
   end
 
@@ -166,6 +167,17 @@ defmodule SlackinEx.Slack do
   end
   defp validate_email(_) do
     {:error, {:validation, "Email required."}}
+  end
+
+  defp validate_coc(%{"coc" => coc}) do
+    {:ok, coc}
+  end
+  defp validate_coc(_) do
+    if Config.coc_url() do
+      {:error, {:validation, "Code of conduction required."}}
+    else
+      {:ok, Config.coc_url()}
+    end    
   end
 
   defp invite_url do
