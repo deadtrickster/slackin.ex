@@ -24,7 +24,7 @@
 - Tests
 
 ================= Version 2 =================
-- code of conduct support
++ code of conduct support
 - invitiation widget [iframe]
 - prerender everything [and badges] on startup
   - make css a view, make every color(incl background) here customizable too
