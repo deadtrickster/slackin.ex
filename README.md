@@ -97,7 +97,8 @@ Put you configuration in prod.exs and api token in environment (config var):
 
 ```
 heroku config:set SLACK_APITOKEN=<your token>
-heroku config:set SECRET_KEY_BASE=<key base>
+heroku config:set SLACK_SUBDOMAIN=<your subdomain>
+heroku config:set CONTACT_EMAIL=<your email>
 ```
 
 And deploy with Heroku git as usual.
