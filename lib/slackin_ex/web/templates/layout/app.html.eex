@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="https://slack.global.ssl.fastly.net/272a/img/icons/favicon-32.png">
 
-    <title>Hello SlackinEx!</title>
+    <title>Join <%= SlackinEx.Config.slack_team_name() %> on Slack!</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
