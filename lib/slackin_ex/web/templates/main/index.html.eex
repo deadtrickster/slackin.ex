@@ -1,6 +1,8 @@
 <div class="splash">
   <div class="logos">
-    <div class="logo org" style="background-image: url(<%= SlackinEx.Config.logo_url() %>)"></div>
+    <%= if SlackinEx.Config.logo_url() do %>
+      <div class="logo org" style="background-image: url(<%= SlackinEx.Config.logo_url() %>)"></div>
+    <% end %>
     <div class="logo slack"></div>
   </div>
   <p>Join <b><%= SlackinEx.Config.slack_team_name() %></b> on Slack.</p>

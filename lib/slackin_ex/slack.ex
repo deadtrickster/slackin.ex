@@ -38,12 +38,13 @@ defmodule SlackinEx.Slack do
               Config.set_option(:slack_team_name, team_name)
             end
 
-            unless Config.logo_url() do
+            if Config.logo_url() == nil do
               case team_icon do
                 %{"image_default" => _} ->
                   Logger.error("Team logo not set [slack].")
                   exit({:error, {:application, "Team logo not set"}})
                 %{"image_132" => team_logo} ->
+                  Logger.info("Using logo from team profile [slack].")
                   Config.set_option(:logo_url, team_logo)
               end
             end
@@ -62,7 +63,7 @@ defmodule SlackinEx.Slack do
 
   def invite(params) do
     with {:ok, email} <- validate_email(params),
-          {:ok, _coc} <- validate_coc(params),
+         {:ok, _coc} <- validate_coc(params),
       do: invite!(email)
   end
 
@@ -177,7 +178,7 @@ defmodule SlackinEx.Slack do
       {:error, {:validation, "Code of conduction required."}}
     else
       {:ok, Config.coc_url()}
-    end    
+    end
   end
 
   defp invite_url do
