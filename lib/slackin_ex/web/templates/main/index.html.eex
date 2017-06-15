@@ -18,7 +18,7 @@
   <form id="invite" action="/invite" method="post">
     <input type="email" required id="email" name="email" placeholder="you@yourdomain.com" autofocus=true class="form-item">
     <%= if SlackinEx.Config.coc_url() do %>
-      <div class="coc"><label><input type="checkbox" name="coc" value="1">I agree to the <a href="<%= SlackinEx.Config.coc_url() %>" target="_blank">Code of Conduct</a>.</label></div>
+      <div class="coc"><label><input type="checkbox" id="coc" name="coc">I agree to the <a href="<%= SlackinEx.Config.coc_url() %>" target="_blank">Code of Conduct</a>.</label></div>
     <% end %>
     <input type="submit" id="submit" value="Get my Invite" class="button"/>
   </form>
