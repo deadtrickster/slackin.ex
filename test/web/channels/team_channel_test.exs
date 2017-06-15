@@ -17,7 +17,7 @@ defmodule SlackinEx.Web.TeamChannelTest do
     assert_reply ref, :ok, %{"hello" => "there"}
   end
 
-  test "show error if code of conduction is required and does'nt passed", %{socket: socket} do
+  test "show error if code of conduct is required and was not given", %{socket: socket} do
     Config.set_option(:coc_url, "http://google.com")
     ref = push socket, "slack_invite", %{
       "email" => "foo@bar.com"
@@ -25,7 +25,7 @@ defmodule SlackinEx.Web.TeamChannelTest do
     assert_reply ref, :error, %{}
   end
 
-  test "subscribe new user and give correct error message if try to subscribe twice", %{socket: socket} do
+  test "invite new user and give correct error message if try to invite the same user twice", %{socket: socket} do
     new_user_email = Integer.to_string(:os.system_time(:milli_seconds)) <> "qwe@ndfjviydf8osnfdfnhvdnfvdfvdfvhngysd8vbdfbyfivb.com"
     ref = push socket, "slack_invite", %{
       "email" => new_user_email,
