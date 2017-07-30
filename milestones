@@ -31,5 +31,5 @@
 - investigate client side badge rendering for widgets
 - deployment
   + docker
-  - aws marketplace?
+  n/a aws marketplace (not an option, for big boyz only)
   - azure?

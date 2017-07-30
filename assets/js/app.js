@@ -26,6 +26,7 @@ channel.join()
 
     var form = document.getElementById("invite");
     var email = document.getElementById("email");
+    var coc = document.getElementById("coc") || {checked: false};
     var button = document.getElementById("submit");
 
     form.addEventListener("submit", function(e) {
@@ -35,7 +36,7 @@ channel.join()
       button.className = 'button loading';
       button.innerHTML = 'Please Wait';
 
-      channel.push("slack_invite", {email: email.value})
+      channel.push("slack_invite", {email: email.value, coc: coc.checked})
         .receive("ok", (msg) => {
           button.className = 'button success';
           button.value = "SUCCESS!";
