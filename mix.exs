@@ -1,7 +1,7 @@
 defmodule SlackinEx.Mixfile do
   use Mix.Project
 
-  def project do
+  def project() do
     [app: :slackin_ex,
      version: "0.0.1",
      elixir: "~> 1.3",
@@ -15,7 +15,7 @@ defmodule SlackinEx.Mixfile do
   # Configuration for the OTP application.
   #
   # Type `mix help compile.app` for more information.
-  def application do
+  def application() do
     [mod: {SlackinEx.Application, []},
      extra_applications: [:logger, :runtime_tools]]
   end
@@ -27,16 +27,16 @@ defmodule SlackinEx.Mixfile do
   # Specifies your project dependencies.
   #
   # Type `mix help deps` for examples and options.
-  defp deps do
-    [{:phoenix, "~> 1.3.0-rc"},
+  defp deps() do
+    [{:phoenix, "~> 1.3"},
      {:phoenix_pubsub, "~> 1.0"},
-     {:phoenix_html, "~> 2.6"},
+     {:phoenix_html, "~> 2.10"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:hackney, "~> 1.7"},
      {:jsx, "~> 2.8"},
-     {:credo, "~> 0.7", only: [:dev, :test]},
+     {:credo, git: "https://github.com/rrrene/credo", only: [:dev, :test], runtime: false},
      {:fuse, "~> 2.4"},
      {:smerl, "~> 0.0.1"},
      {:distillery, "~> 1.3"}]
