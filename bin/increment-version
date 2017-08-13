@@ -85,5 +85,3 @@ TAG_MESSAGE=${1:-"New version: v${new_version}"}
 git tag -a "v${new_version}" -m "${TAG_MESSAGE}"
 git push origin master
 git push origin "v${new_version}"
-
-mix hex.publish
