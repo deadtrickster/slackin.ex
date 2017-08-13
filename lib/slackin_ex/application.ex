@@ -10,6 +10,8 @@ defmodule SlackinEx.Application do
   def start(_type, _args) do
     import Supervisor.Spec
 
+    SlackinEx.Metrics.Exporter.setup()
+    SlackinEx.Web.PhoenixInstrumenter.setup()
     SlackinEx.Slack.setup()
     SlackinEx.Slack.preflight_check()
 

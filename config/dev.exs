@@ -53,4 +53,3 @@ config :slackin_ex,
   logo_url: "https://i.imgur.com/bq7UPJ6.png",
   contact_email: "slackinex@gmail.com",
   contact_name: "slackin.ex Team"
-

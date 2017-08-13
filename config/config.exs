@@ -11,7 +11,8 @@ config :slackin_ex, SlackinEx.Web.Endpoint,
   secret_key_base: "OX6hEGB5vYeWIRJnkqs6RX32m0xab8/X2lgP8t54TeZ5MNADRIkMAZ+bnm8g/wzA",
   render_errors: [view: SlackinEx.Web.ErrorView, accepts: ~w(html json)],
   pubsub: [name: SlackinEx.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+           adapter: Phoenix.PubSub.PG2],
+  instrumenters: [SlackinEx.Web.PhoenixInstrumenter]
 
 # Configures Elixir's Logger
 config :logger, :console,

@@ -32,6 +32,8 @@ defmodule SlackinEx.Mixfile do
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_html, "~> 2.10"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
+     {:prometheus_phoenix, "~> 1.2"},
+     {:prometheus_plugs, "~> 1.1"},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:hackney, "~> 1.7"},
