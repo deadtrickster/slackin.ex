@@ -5,6 +5,8 @@ defmodule SlackinEx.Web.Endpoint do
 
   plug SlackinEx.Metrics.Exporter
 
+  plug SlackinEx.Metrics.PipelineInstrumenter
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest

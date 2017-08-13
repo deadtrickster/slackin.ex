@@ -11,6 +11,7 @@ defmodule SlackinEx.Application do
     import Supervisor.Spec
 
     SlackinEx.Metrics.Exporter.setup()
+    SlackinEx.Metrics.PipelineInstrumenter.setup()
     SlackinEx.Web.PhoenixInstrumenter.setup()
     SlackinEx.Slack.setup()
     SlackinEx.Slack.preflight_check()
