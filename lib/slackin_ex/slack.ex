@@ -171,18 +171,18 @@ defmodule SlackinEx.Slack do
   end
 
   defp validate_coc(%{"coc" => coc}) do
-    if coc do
-      {:ok, coc}
+    if Config.coc_url() do
+      if coc do
+        {:ok, coc}
+      else
+        {:error, {:validation, "Code of conduct required."}}
+      end
     else
-      {:error, {:validation, "Code of conduction required."}}
+      {:ok, false}
     end
   end
   defp validate_coc(_) do
-    if Config.coc_url() do
-      {:error, {:validation, "Code of conduction required."}}
-    else
-      {:ok, Config.coc_url()}
-    end
+    validate_coc(%{"coc" => false})
   end
 
   defp invite_url do
