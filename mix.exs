@@ -34,6 +34,7 @@ defmodule SlackinEx.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:prometheus_phoenix, "~> 1.2"},
      {:prometheus_plugs, "~> 1.1"},
+     {:prometheus_process_collector, "~> 1.2", override: true},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:hackney, "~> 1.7"},
